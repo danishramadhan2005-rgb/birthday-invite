@@ -2,78 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- INI KUNCI ANTI ZOOM DI HP -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>You're Invited! 🎉</title>
   <style>
-    /* --- PENGATURAN ANTI-NGEZOOM DI HP --- */
-    html {
+    /* Kunci anti zoom level browser */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* Biar gak bisa digeser ngaco */
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
+      touch-action: manipulation; /* Cegah double tap zoom */
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      min-height: 100vh;
       font-family: sans-serif;
       text-align: center;
-      overflow: hidden;
       background: url('foto.jpg') center/cover no-repeat fixed;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
     }
 
     .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
       width: 100%;
-      padding: 30px 20px 50px 20px;
-      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+      max-height: 100%;
+      overflow-y: auto; /* Kalau layar HP pendek, kotak bisa discroll */
+      padding: 20px 15px 40px 15px;
+      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 80%, transparent 100%);
       z-index: 10;
+      box-sizing: border-box;
     }
 
     .text-container { max-width: 600px; margin: 0 auto; color: white; }
 
-    .pre-title { font-size: 1.2rem; margin-bottom: 10px; color: #ffd166; text-shadow: 2px 2px 5px #000; font-weight: bold; }
+    .pre-title { font-size: 1.1rem; margin-bottom: 8px; color: #ffd166; text-shadow: 2px 2px 5px #000; font-weight: bold; }
 
-    .title { font-size: 2.5rem; line-height: 1.2; margin-bottom: 10px; text-shadow: 2px 2px 8px #000; }
+    .title { font-size: 2rem; line-height: 1.2; margin-bottom: 10px; text-shadow: 2px 2px 8px #000; }
     .title span { color: #ffd166; font-weight: bold; }
 
-    .subtitle { font-size: 1.1rem; margin-bottom: 25px; text-shadow: 2px 2px 5px #000; }
+    .subtitle { font-size: 1rem; margin-bottom: 20px; text-shadow: 2px 2px 5px #000; }
 
-    .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-    .btn { padding: 12px 25px; font-size: 1rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+    .btn-group { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 12px 20px; font-size: 1rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
     
     .btn.yes { background: #ff477e; color: white; box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4); animation: pulse 1.5s infinite; }
-    .btn.yes:hover { transform: scale(1.1); }
-    
     .btn.no { background: rgba(0,0,0,0.6); color: white; border: 2px solid white; }
 
     /* Popup */
     .popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 9999; }
     .popup.active { display: flex; }
-    .popup-content { background: white; padding: 30px; border-radius: 20px; max-width: 400px; width: 90%; position: relative; }
-    .popup-content h2 { color: #ff477e; margin-bottom: 10px; }
-    .location { background: #f0f0f0; padding: 15px; border-radius: 15px; margin: 15px 0; color: #333; }
+    .popup-content { background: white; padding: 25px; border-radius: 20px; max-width: 90%; width: 350px; box-sizing: border-box; }
+    .popup-content h2 { color: #ff477e; margin-bottom: 10px; font-size: 1.5rem;}
+    .location { background: #f0f0f0; padding: 15px; border-radius: 15px; margin: 15px 0; color: #333; font-size: 0.9rem;}
     .location a { color: #ff477e; font-weight: bold; text-decoration: none; }
 
     /* Balon & Confetti */
     .balloon-emoji, .confetti { position: absolute; bottom: -100px; pointer-events: none; z-index: 99; }
-    .balloon-emoji { font-size: 60px; animation: floatUp linear forwards; }
-    .confetti { width: 12px; height: 24px; animation: fallDown linear forwards; }
+    .balloon-emoji { font-size: 50px; animation: floatUp linear forwards; }
+    .confetti { width: 10px; height: 20px; animation: fallDown linear forwards; }
 
     @keyframes floatUp { 0% { transform: translateY(0) rotate(-15deg); opacity: 1; } 50% { transform: translateY(-50vh) translateX(20px) rotate(15deg); } 100% { transform: translateY(-120vh) translateX(-20px) rotate(-15deg); opacity: 0; } }
     @keyframes fallDown { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(120vh) rotate(720deg); opacity: 0; } }
-    @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 71, 126, 0.6); } 50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 71, 126, 1); } 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 71, 126, 0.6); } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-    /* --- RESPONSIVE BUAT HP --- */
-    @media (max-width: 600px) {
-      .title { font-size: 2rem; }
-      .pre-title { font-size: 1rem; }
-      .subtitle { font-size: 0.95rem; }
-      .overlay { padding: 20px 15px 40px 15px; }
-      .btn { padding: 10px 20px; font-size: 0.9rem; }
-      .balloon-emoji { font-size: 45px; }
-      .popup-content { padding: 20px; }
+    /* KHUSUS LAYAR HP YANG LEBIH KECIL */
+    @media (max-width: 400px) {
+      .title { font-size: 1.6rem; }
+      .pre-title { font-size: 0.9rem; }
+      .subtitle { font-size: 0.85rem; }
+      .btn { padding: 10px 15px; font-size: 0.85rem; }
     }
   </style>
 </head>
@@ -118,7 +119,7 @@
       const emojis = ['🎈', '🎈', '🎈', '🎈', '🎊', '✨', '🎉'];
       b.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       b.style.left = Math.random() * 100 + 'vw';
-      b.style.fontSize = isMassive ? (Math.random() * 30 + 50) + 'px' : (Math.random() * 30 + 30) + 'px';
+      b.style.fontSize = isMassive ? (Math.random() * 30 + 40) + 'px' : (Math.random() * 20 + 30) + 'px';
       const duration = isMassive ? (Math.random() * 2 + 2) : (Math.random() * 3 + 4);
       b.style.animationDuration = duration + 's';
       container.appendChild(b);
