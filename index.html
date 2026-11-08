@@ -4,14 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>You're Invited! 🎉</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      font-family: sans-serif;
+      text-align: center;
+      overflow: hidden;
+      background: url('foto.jpg') center/cover no-repeat fixed;
+    }
+
+    /* Overlay gelap di bawah biar teks kebaca, muka lu di atas tetap jelas */
+    .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 30px 20px 50px 20px;
+      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+      z-index: 10;
+    }
+
+    .text-container { max-width: 600px; margin: 0 auto; color: white; }
+
+    .pre-title { font-size: 1.2rem; margin-bottom: 10px; color: #ffd166; text-shadow: 2px 2px 5px #000; font-weight: bold; }
+    .title { font-size: 2.2rem; line-height: 1.2; margin-bottom: 10px; text-shadow: 2px 2px 8px #000; }
+    .title span { color: #ffd166; }
+    .subtitle { font-size: 1.1rem; margin-bottom: 25px; text-shadow: 2px 2px 5px #000; }
+
+    .btn-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+    .btn { padding: 12px 25px; font-size: 1rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+    .btn.yes { background: #ff477e; color: white; box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4); }
+    .btn.yes:hover { transform: scale(1.1); }
+    .btn.no { background: rgba(0,0,0,0.5); color: white; border: 2px solid white; }
+
+    /* Popup */
+    .popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 9999; }
+    .popup.active { display: flex; }
+    .popup-content { background: white; padding: 30px; border-radius: 20px; max-width: 400px; }
+    .popup-content h2 { color: #ff477e; margin-bottom: 10px; }
+    .location { background: #f0f0f0; padding: 15px; border-radius: 15px; margin: 15px 0; color: #333; }
+    .location a { color: #ff477e; font-weight: bold; text-decoration: none; }
+
+    /* ==== BALON PAKAI EMOJI BIAR PASTI MUNCUL ==== */
+    .balloon-emoji {
+      position: absolute;
+      font-size: 50px; /* Ukuran balon */
+      bottom: -100px; /* Mulai dari bawah */
+      animation: floatUp linear forwards;
+      z-index: 99;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(-10deg); opacity: 1; }
+      50% { transform: translateY(-50vh) rotate(10deg); }
+      100% { transform: translateY(-120vh) rotate(-10deg); opacity: 0; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Tempat Balon -->
   <div id="balloon-container"></div>
 
-  <!-- Layout baru: Teks di bawah biar muka lu kelihatan -->
   <div class="overlay">
     <div class="text-container">
       <h2 class="pre-title">It's Danish's and Dymi's birthday!</h2>
@@ -25,22 +81,58 @@
     </div>
   </div>
 
-  <!-- Popup pas pencet YES (Alamat muncul di sini) -->
   <div id="popup" class="popup">
     <div class="popup-content">
       <h2>Yay! See you there! 🎉</h2>
-      <p>Here are the party details:</p>
-      
-      <div class="location-popup">
+      <div class="location">
         <p><strong>📍 Rubin Loft</strong></p>
         <p>Rubinshteyna Street, 20</p>
-        <a href="https://yandex.com/maps/org/rubin_loft/69663974910?si=q5rw18f5hvua8xh899q4516nkc" target="_blank" class="map-link">Open in Maps 🗺️</a>
+        <a href="https://yandex.com/maps/org/rubin_loft/69663974910?si=q5rw18f5hvua8xh899q4516nkc" target="_blank">Open in Maps 🗺️</a>
       </div>
-
       <button onclick="closePopup()" class="btn yes">Close</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const popup = document.getElementById('popup');
+    const container = document.getElementById('balloon-container');
+
+    function createBalloon(isMassive = false) {
+      const b = document.createElement('div');
+      b.className = 'balloon-emoji';
+      b.innerText = '🎈'; // Pakai emoji balon
+      
+      b.style.left = Math.random() * 100 + 'vw'; // Posisi random
+      
+      // Ukuran & kecepatan
+      b.style.fontSize = isMassive ? '80px' : '50px';
+      const duration = isMassive ? 3 : 6;
+      b.style.animationDuration = duration + 's';
+      
+      container.appendChild(b);
+
+      setTimeout(() => { b.remove(); }, duration * 1000);
+    }
+
+    // Balon nongol tiap 0.5 detik
+    setInterval(() => { createBalloon(); }, 500);
+
+    noBtn.addEventListener('mouseover', () => {
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+      noBtn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+    });
+
+    yesBtn.addEventListener('click', () => {
+      popup.classList.add('active');
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => { createBalloon(true); }, i * 40);
+      }
+    });
+
+    function closePopup() { popup.classList.remove('active'); }
+  </script>
 </body>
 </html>
