@@ -8,30 +8,35 @@
 </head>
 <body>
 
+  <!-- Tempat Balon -->
   <div id="balloon-container"></div>
 
-  <div class="container">
-    <h2 class="pre-title">It's Danish's and Dymi's birthday!</h2>
-    <h1 class="title">You are invited to<br><span>Our Birthday Party</span> 🎂</h1>
-    <p class="subtitle">And you're invited! Come and celebrate with us! 🎈</p>
-    
-    <div class="location">
-      <p><strong>📍 Location:</strong></p>
-      <p>Rubin Loft</p>
-      <p>Rubinshteyna Street, 20</p>
-      <a href="https://yandex.com/maps/org/rubin_loft/69663974910?si=q5rw18f5hvua8xh899q4516nkc" target="_blank" class="map-link">Open in Maps 🗺️</a>
-    </div>
-
-    <div class="btn-group">
-      <button id="yesBtn" class="btn yes">Will You Come? 💖</button>
-      <button id="noBtn" class="btn no">No 😢</button>
+  <!-- Layout baru: Teks di bawah biar muka lu kelihatan -->
+  <div class="overlay">
+    <div class="text-container">
+      <h2 class="pre-title">It's Danish's and Dymi's birthday!</h2>
+      <h1 class="title">You are invited to<br><span>Our Birthday Party</span> 🎂</h1>
+      <p class="subtitle">Come and celebrate with us! 🎈</p>
+      
+      <div class="btn-group">
+        <button id="yesBtn" class="btn yes">Will You Come? 💖</button>
+        <button id="noBtn" class="btn no">No 😢</button>
+      </div>
     </div>
   </div>
 
+  <!-- Popup pas pencet YES (Alamat muncul di sini) -->
   <div id="popup" class="popup">
     <div class="popup-content">
-      <h2>Yay! 🎉</h2>
-      <p>Can't wait to see you there! It's gonna be lit! 🔥</p>
+      <h2>Yay! See you there! 🎉</h2>
+      <p>Here are the party details:</p>
+      
+      <div class="location-popup">
+        <p><strong>📍 Rubin Loft</strong></p>
+        <p>Rubinshteyna Street, 20</p>
+        <a href="https://yandex.com/maps/org/rubin_loft/69663974910?si=q5rw18f5hvua8xh899q4516nkc" target="_blank" class="map-link">Open in Maps 🗺️</a>
+      </div>
+
       <button onclick="closePopup()" class="btn yes">Close</button>
     </div>
   </div>
