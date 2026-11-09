@@ -18,7 +18,7 @@
     .main-container {
       max-width: 800px;
       margin: 0 auto;
-      padding: 10px; /* Padding dikecilin biar foto lebih penuh */
+      padding: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -30,11 +30,11 @@
     /* PENGATURAN GRID FOTO (3 BARIS) */
     .photo-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr; /* 2 Kolom */
-      gap: 8px; /* Jarak antar foto */
+      grid-template-columns: 1fr 1fr; 
+      gap: 8px; 
       width: 100%;
       max-width: 600px;
-      margin-bottom: 25px;
+      margin-bottom: 20px; /* Dikurangi dikit biar tanggal muat */
     }
 
     .photo-grid img {
@@ -44,23 +44,35 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 
-    /* BARIS 1 & 3 (FOTO BESAR) */
-    .img-large { height: 220px; }
+    .img-large { height: 200px; }
 
-    /* BARIS 2 (FOTO KECIL) - Dibagi 4 kolom */
     .grid-middle {
-      grid-column: span 2; /* Ambil lebar penuh */
+      grid-column: span 2;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
       gap: 8px;
     }
-    .grid-middle img { height: 120px; }
+    .grid-middle img { height: 110px; }
 
     /* TEKS UNDANGAN */
     .pre-title { font-size: 1.1rem; color: #ff477e; font-weight: bold; margin-bottom: 5px; }
     .title { font-size: 2.2rem; line-height: 1.2; margin-bottom: 10px; color: #222; }
     .title span { color: #ff477e; }
-    .subtitle { font-size: 1.1rem; margin-bottom: 25px; color: #555; }
+    .subtitle { font-size: 1.1rem; margin-bottom: 15px; color: #555; }
+
+    /* TANGGAL SAVE THE DATE DI DEPAN */
+    .save-date {
+      background: #ffd166;
+      color: #222;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(255, 209, 102, 0.5);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
 
     /* TOMBOL */
     .btn-group { display: flex; gap: 15px; justify-content: center; width: 100%; margin-bottom: 30px;}
@@ -101,12 +113,13 @@
     @keyframes fallDown { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(120vh) rotate(720deg); opacity: 0; } }
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-    /* LAYAR HP KECIL (BIAR TETAP RAPI) */
+    /* LAYAR HP KECIL */
     @media (max-width: 600px) {
-      .img-large { height: 150px; }
-      .grid-middle img { height: 80px; }
+      .img-large { height: 130px; }
+      .grid-middle img { height: 70px; }
       .title { font-size: 1.6rem; }
-      .pre-title { font-size: 1rem; }
+      .pre-title { font-size: 0.9rem; }
+      .save-date { font-size: 1rem; padding: 8px 15px; }
     }
   </style>
 </head>
@@ -118,11 +131,9 @@
     
     <!-- KOLASE 8 FOTO -->
     <div class="photo-grid">
-      <!-- Baris 1: Kiri Kanan Gede -->
       <img src="foto5.jpg" class="img-large" alt="Foto 5">
       <img src="foto6.jpg" class="img-large" alt="Foto 6">
 
-      <!-- Baris 2: 4 Foto Kecil di Tengah -->
       <div class="grid-middle">
         <img src="foto1.jpg" alt="Foto 1">
         <img src="foto2.jpg" alt="Foto 2">
@@ -130,7 +141,6 @@
         <img src="foto4.jpg" alt="Foto 4">
       </div>
 
-      <!-- Baris 3: Kiri Kanan Gede -->
       <img src="foto7.jpg" class="img-large" alt="Foto 7">
       <img src="foto8.jpg" class="img-large" alt="Foto 8">
     </div>
@@ -138,6 +148,9 @@
     <div class="pre-title">🎉 It's Danish's and Dymi's birthday! 🥳</div>
     <div class="title">You are invited to<br><span>Our Birthday Party</span> 🎂</div>
     <div class="subtitle">Come and celebrate with us! 🎈</div>
+
+    <!-- SAVE THE DATE DI SINI -->
+    <div class="save-date">📅 Save the Date: 15/11/2026</div>
 
     <div class="btn-group">
       <button id="yesBtn" class="btn yes">Will You Come? 💖</button>
@@ -151,6 +164,8 @@
       <p>Here are the party details:</p>
       
       <div class="details">
+        <!-- SAVE THE DATE DITEBELIN DI POPUP -->
+        <p><strong>📅 Date:</strong> 15/11/2026</p>
         <p><strong>📍 Rubin Loft</strong><br>Rubinshteyna Street, 20</p>
         <p><strong>⏰ Time:</strong> 13.00 (1:00 PM)</p>
         <p><strong>👕 Dress Code:</strong> Putih / White</p>
