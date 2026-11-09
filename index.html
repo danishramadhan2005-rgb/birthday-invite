@@ -5,88 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>You're Invited! 🎉</title>
   <style>
-    /* KUNCI MATI ANTI ZOOM & SCROLL */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
     html, body { 
       width: 100vw; 
-      height: 100vh; 
-      overflow: hidden; 
-      touch-action: pan-y; 
+      min-height: 100vh; 
       font-family: sans-serif; 
-      background: #111;
+      background: #fdfbf7; /* Warna putih tulang / krem manis */
+      overflow-x: hidden;
     }
 
-    .bg-image {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: url('foto.jpg') center center / cover no-repeat;
-      z-index: 1;
-    }
-
-    .overlay {
-      position: fixed;
-      bottom: 0; left: 0; width: 100vw;
-      padding: 15px 15px 30px 15px;
-      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 70%, transparent 100%);
-      z-index: 10;
+    /* Wadah utama biar ke tengah */
+    .main-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 10;
     }
 
-    .text-container { width: 100%; max-width: 600px; color: white; text-align: center; }
+    /* GRID 4 FOTO */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Dibagi 2 kolom */
+      gap: 10px;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 25px;
+    }
 
-    .pre-title { font-size: 1rem; margin-bottom: 5px; color: #ffd166; font-weight: bold; text-shadow: 1px 1px 4px #000; }
-    .title { font-size: 1.6rem; line-height: 1.2; margin-bottom: 8px; text-shadow: 2px 2px 6px #000; }
-    .title span { color: #ffd166; }
-    .subtitle { font-size: 0.9rem; margin-bottom: 15px; text-shadow: 1px 1px 4px #000; }
+    .photo-grid img {
+      width: 100%;
+      height: 200px; /* Tinggi foto disamain */
+      object-fit: cover; /* Biar foto ga gepeng */
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-    .btn-group { display: flex; gap: 10px; justify-content: center; width: 100%; }
-    .btn { padding: 10px 18px; font-size: 0.85rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
-    .btn.yes { background: #ff477e; color: white; animation: pulse 1.5s infinite; flex: 1; max-width: 150px; }
-    .btn.no { background: rgba(0,0,0,0.6); color: white; border: 2px solid white; flex: 1; max-width: 100px;}
+    /* TEKS UNDANGAN */
+    .pre-title { font-size: 1rem; color: #ff477e; font-weight: bold; margin-bottom: 5px; }
+    .title { font-size: 2rem; line-height: 1.2; margin-bottom: 10px; color: #222; }
+    .title span { color: #ff477e; }
+    .subtitle { font-size: 1rem; margin-bottom: 25px; color: #555; }
 
-    /* POPUP */
-    .popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
+    /* TOMBOL */
+    .btn-group { display: flex; gap: 15px; justify-content: center; width: 100%; }
+    .btn { padding: 12px 20px; font-size: 1rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
+    
+    .btn.yes { 
+      background: #ff477e; 
+      color: white; 
+      box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4); 
+      animation: pulse 1.5s infinite; 
+    }
+    .btn.no { 
+      background: #eee; 
+      color: #333; 
+      border: 2px solid #ccc; 
+    }
+
+    /* POPUP (SAMA KAYAK SEBELUMNYA) */
+    .popup { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
     .popup.active { display: flex; }
-    .popup-content { background: white; padding: 20px; border-radius: 20px; max-width: 350px; width: 100%; text-align: center; }
-    .popup-content h2 { color: #ff477e; margin-bottom: 10px; font-size: 1.3rem; }
-    .location { background: #f0f0f0; padding: 12px; border-radius: 15px; margin: 10px 0; color: #333; font-size: 0.8rem; }
+    .popup-content { background: white; padding: 25px; border-radius: 20px; max-width: 350px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .popup-content h2 { color: #ff477e; margin-bottom: 10px; font-size: 1.4rem; }
+    .location { background: #f5f5f5; padding: 15px; border-radius: 15px; margin: 15px 0; color: #333; font-size: 0.9rem; }
     .location a { color: #ff477e; font-weight: bold; text-decoration: none; }
 
-    /* PARTIKEL */
-    .balloon-emoji, .confetti { position: absolute; bottom: -100px; pointer-events: none; z-index: 99; }
-    .balloon-emoji { font-size: 40px; animation: floatUp linear forwards; }
-    .confetti { width: 8px; height: 16px; animation: fallDown linear forwards; }
+    /* PARTIKEL (BALON & CONFETTI) */
+    .balloon-emoji, .confetti { position: fixed; bottom: -100px; pointer-events: none; z-index: 5; }
+    .balloon-emoji { font-size: 45px; animation: floatUp linear forwards; }
+    .confetti { width: 10px; height: 20px; animation: fallDown linear forwards; }
 
     @keyframes floatUp { 0% { transform: translateY(0) rotate(-15deg); opacity: 1; } 100% { transform: translateY(-120vh) translateX(30px) rotate(15deg); opacity: 0; } }
     @keyframes fallDown { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(120vh) rotate(720deg); opacity: 0; } }
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-    /* LAYAR GEDE (LAPTOP) */
-    @media (min-width: 600px) {
-      .pre-title { font-size: 1.3rem; }
-      .title { font-size: 2.5rem; }
-      .subtitle { font-size: 1.1rem; margin-bottom: 25px; }
-      .btn { padding: 12px 25px; font-size: 1rem; }
-      .overlay { padding: 30px 20px 50px 20px; }
+    /* LAYAR HP KECIL */
+    @media (max-width: 450px) {
+      .photo-grid img { height: 140px; }
+      .title { font-size: 1.6rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-image"></div>
   <div id="particle-container"></div>
 
-  <div class="overlay">
-    <div class="text-container">
-      <div class="pre-title">🎉 It's Danish's and Dymi's birthday! 🥳</div>
-      <div class="title">You are invited to<br><span>Our Birthday Party</span> 🎂</div>
-      <div class="subtitle">Come and celebrate with us! 🎈</div>
-      <div class="btn-group">
-        <button id="yesBtn" class="btn yes">Will You Come? 💖</button>
-        <button id="noBtn" class="btn no">No 😢</button>
-      </div>
+  <div class="main-container">
+    
+    <!-- 4 FOTO DI SINI -->
+    <div class="photo-grid">
+      <img src="foto1.jpg" alt="Foto 1">
+      <img src="foto2.jpg" alt="Foto 2">
+      <img src="foto3.jpg" alt="Foto 3">
+      <img src="foto4.jpg" alt="Foto 4">
+    </div>
+
+    <div class="pre-title">🎉 It's Danish's and Dymi's birthday! 🥳</div>
+    <div class="title">You are invited to<br><span>Our Birthday Party</span> 🎂</div>
+    <div class="subtitle">Come and celebrate with us! 🎈</div>
+
+    <div class="btn-group">
+      <button id="yesBtn" class="btn yes">Will You Come? 💖</button>
+      <button id="noBtn" class="btn no">No 😢</button>
     </div>
   </div>
 
@@ -137,8 +163,7 @@
     setInterval(() => { 
       createBalloon(); 
       createConfetti();
-      setTimeout(() => createConfetti(), 100); 
-    }, 150);
+    }, 200);
 
     noBtn.addEventListener('mouseover', () => {
       noBtn.style.position = 'fixed';
@@ -148,8 +173,8 @@
 
     yesBtn.addEventListener('click', () => {
       popup.classList.add('active');
-      for (let i = 0; i < 100; i++) {
-        setTimeout(() => { createBalloon(true); createConfetti(true); }, i * 15);
+      for (let i = 0; i < 80; i++) {
+        setTimeout(() => { createBalloon(true); createConfetti(true); }, i * 20);
       }
     });
 
